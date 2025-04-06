@@ -147,8 +147,8 @@
                         {% if prediction == "Positive" %}😊{% else %}😡{% endif %}
                     </span>
                 </h2>
-                <p>Original Tweet: {{ tweet }}</p>
-                <p>Translated (if Hinglish): {{ translated_tweet }}</p>
+                
+                
                 <p>Confidence: {{ confidence }}%</p>
             </div>
         {% endif %}
@@ -157,7 +157,7 @@
         <div class="topic-section">
             <h3>Analyze Sentiment by Topic</h3>
             <form method="POST">
-                <input type="text" name="topic" placeholder="Topic daal (e.g., IPL, Elon Musk)" required>
+                <input type="text" name="topic" placeholder="Topic (e.g., IPL, Elon Musk)" required>
                 <input type="submit" value="Analyze Topic">
             </form>
             {% if topic_result %}
