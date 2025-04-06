@@ -23,12 +23,12 @@
         }
         .container {
             background: #2c2c2c;
-            padding: 40px;
+            padding: 20px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             text-align: center;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             transition: transform 0.3s ease;
         }
         .container:hover {
@@ -36,18 +36,19 @@
         }
         h1 {
             color: #00ff88;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: 600;
+            font-size: 1.5em;
         }
         input[type="text"] {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 10px 0;
             border: 2px solid #3a3a3a;
             border-radius: 8px;
             background-color: #1a1a1a;
             color: #ffffff;
-            font-size: 16px;
+            font-size: 1em;
             transition: border-color 0.3s ease;
         }
         input[type="text"]:focus {
@@ -57,11 +58,11 @@
         input[type="submit"] {
             background: linear-gradient(135deg, #00ff88, #00cc70);
             color: #1a1a1a;
-            padding: 12px 30px;
+            padding: 10px 25px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1em;
             font-weight: 600;
             transition: transform 0.2s ease, background 0.3s ease;
         }
@@ -70,8 +71,8 @@
             background: linear-gradient(135deg, #00cc70, #00ff88);
         }
         .result, .topic-result {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px;
             border-radius: 8px;
             background: #1a1a1a;
             animation: fadeIn 0.5s ease;
@@ -82,24 +83,51 @@
         }
         .result h2, .topic-result h2 {
             color: #00ff88;
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 1.2em;
+            margin-bottom: 8px;
         }
         .result p, .topic-result p {
             color: #cccccc;
-            font-size: 16px;
+            font-size: 0.9em;
         }
         .emoji {
-            font-size: 30px;
-            margin-left: 10px;
+            font-size: 1.5em;
+            margin-left: 8px;
         }
         .topic-section {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: left;
         }
         .topic-section h3 {
             color: #00ff88;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        /* Responsive Design for Phones */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                max-width: 90%;
+            }
+            h1 {
+                font-size: 1.2em;
+            }
+            input[type="text"], input[type="submit"] {
+                font-size: 0.9em;
+                padding: 8px;
+            }
+            .result h2, .topic-result h2 {
+                font-size: 1em;
+            }
+            .result p, .topic-result p {
+                font-size: 0.8em;
+            }
+            .emoji {
+                font-size: 1.2em;
+            }
+            .topic-section h3 {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -109,7 +137,7 @@
         
         <!-- Single Tweet Analysis -->
         <form method="POST">
-            <input type="text" name="tweet" placeholder="Enter the Tweet">
+            <input type="text" name="tweet" placeholder="Tweet daal bhai (English ya Hinglish)">
             <input type="submit" value="Analyze">
         </form>
         {% if prediction %}
@@ -119,6 +147,8 @@
                         {% if prediction == "Positive" %}😊{% else %}😡{% endif %}
                     </span>
                 </h2>
+                <p>Original Tweet: {{ tweet }}</p>
+                <p>Translated (if Hinglish): {{ translated_tweet }}</p>
                 <p>Confidence: {{ confidence }}%</p>
             </div>
         {% endif %}
