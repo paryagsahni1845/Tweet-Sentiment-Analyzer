@@ -6,13 +6,13 @@ import numpy as np
 
 app = Flask(__name__)
 try:
-    train = pd.read_csv("https://drive.google.com/file/d/1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz/view?usp=sharing/train_data.csv?raw=true")
+    train = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8')
 except Exception as e:
     print(f"Error loading dataset: {e}")
     train = pd.DataFrame()  # Fallback empty dataframe
 
 # Model aur vectorizer load
-train = pd.read_csv("https://drive.google.com/file/d/1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz/view?usp=sharing/train_data.csv?raw=true")
+train = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8')
 vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
 X = vectorizer.fit_transform(train['sentence'])
 y = train['sentiment']
