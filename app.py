@@ -7,7 +7,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Model aur vectorizer load
-train = pd.read_csv("train_data.csv")
+train = pd.read_csv("https://drive.google.com/file/d/1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz/view?usp=sharing/train_data.csv?raw=true")
 vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
 X = vectorizer.fit_transform(train['sentence'])
 y = train['sentiment']
