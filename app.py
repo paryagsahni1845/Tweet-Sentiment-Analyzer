@@ -3,31 +3,41 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 import pandas as pd
 import numpy as np
+import os
 
 app = Flask(__name__)
-try:
-    train = pd.read_csv("https://drive.google.com/uc?export=download&id=1NrZEHpIiTwITIB10nNSmlae0SZcEJXPx", delimiter=",", quotechar='"', encoding='utf-8')
-except Exception as e:
-    print(f"Error loading dataset: {e}")
-    train = pd.DataFrame()  # Fallback empty dataframe
 
 # Model aur vectorizer load
-train = pd.read_csv("https://drive.google.com/uc?export=download&id=1NrZEHpIiTwITIB10nNSmlae0SZcEJXPx", delimiter=",", quotechar='"', encoding='utf-8')
-vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
-X = vectorizer.fit_transform(train['sentence'])
-y = train['sentiment']
-model = LogisticRegression(max_iter=1000)
-model.fit(X, y)
+try:
+    train = pd.read_csv("https://drive.google.com/uc?export=download&id=1NrZEHpIiTwITIB10nNSmlae0SZcEJXPx", delimiter=",", quotechar='"', encoding='utf-8')
+    print("Columns in dataset:", train.columns.tolist())  # Debugging ke liye
+except Exception as e:
+    print(f"Error loading dataset: {e}")
+    train = pd.DataFrame()
+
+# Model training
+if not train.empty:
+    vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
+    X = vectorizer.fit_transform(train['text'])
+    y = train['sentiment']
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X, y)
+else:
+    print("Dataset empty, model not trained.")
+    model = None
+    vectorizer = None
 
 # Function to analyze topic-based sentiment
 def analyze_topic(topic, data):
+    if model is None or vectorizer is None:
+        return None, None, 0
     # Filter tweets containing the topic
-    topic_tweets = data[data['sentence'].str.contains(topic, case=False, na=False)]
+    topic_tweets = data[data['text'].str.contains(topic, case=False, na=False)]
     if len(topic_tweets) == 0:
         return None, None, 0
     
     # Predict sentiment for filtered tweets
-    topic_vectors = vectorizer.transform(topic_tweets['sentence'])
+    topic_vectors = vectorizer.transform(topic_tweets['text'])
     predictions = model.predict(topic_vectors)
     pred_probas = model.predict_proba(topic_vectors)
     
@@ -80,8 +90,4 @@ def home():
                          topic=topic)
 
 if __name__ == '__main__':
-    app.run(debug=True)
-import os
-if __name__ == '__main__':
-    app.run(debug=True, port=int(os.environ.get("PORT", 5000))) 
-
+    app.run(debug=True, port=int(os.environ.get("PORT", 5000)))
