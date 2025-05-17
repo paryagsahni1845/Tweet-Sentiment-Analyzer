@@ -83,4 +83,21 @@ if __name__ == '__main__':
     app.run(debug=True)
 import os
 if __name__ == '__main__':
-    app.run(debug=True, port=int(os.environ.get("PORT", 5000)))    
+    app.run(debug=True, port=int(os.environ.get("PORT", 5000))) 
+
+chunks = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8', chunksize=5000)
+train = pd.DataFrame()
+for chunk in chunks:
+    train = pd.concat([train, chunk], ignore_index=True)
+    break  
+
+dtypes = {
+    "id": "int32",  # Agar ID column hai
+    "tweet": "string",  # Tweet text
+    "sentiment": "category"  # Sentiment column (positive/negative)
+}
+chunks = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8', dtype=dtypes, chunksize=5000)
+train = pd.DataFrame()
+for chunk in chunks:
+    train = pd.concat([train, chunk], ignore_index=True)
+    break
