@@ -6,13 +6,13 @@ import numpy as np
 
 app = Flask(__name__)
 try:
-    train = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8')
+    train = pd.read_csv("https://drive.google.com/uc?export=download&id=1NrZEHpIiTwITIB10nNSmlae0SZcEJXPx", delimiter=",", quotechar='"', encoding='utf-8')
 except Exception as e:
     print(f"Error loading dataset: {e}")
     train = pd.DataFrame()  # Fallback empty dataframe
 
 # Model aur vectorizer load
-train = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8')
+train = pd.read_csv("https://drive.google.com/uc?export=download&id=1NrZEHpIiTwITIB10nNSmlae0SZcEJXPx", delimiter=",", quotechar='"', encoding='utf-8')
 vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
 X = vectorizer.fit_transform(train['sentence'])
 y = train['sentiment']
@@ -85,19 +85,3 @@ import os
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get("PORT", 5000))) 
 
-chunks = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8', chunksize=5000)
-train = pd.DataFrame()
-for chunk in chunks:
-    train = pd.concat([train, chunk], ignore_index=True)
-    break  
-
-dtypes = {
-    "id": "int32",  # Agar ID column hai
-    "tweet": "string",  # Tweet text
-    "sentiment": "category"  # Sentiment column (positive/negative)
-}
-chunks = pd.read_csv("https://drive.google.com/uc?export=download&id=1ZPh1OjuwGPUs5CJzHSCyfVkT1wzCuCcz", delimiter=",", quotechar='"', encoding='utf-8', dtype=dtypes, chunksize=5000)
-train = pd.DataFrame()
-for chunk in chunks:
-    train = pd.concat([train, chunk], ignore_index=True)
-    break
